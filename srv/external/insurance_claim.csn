@@ -1,0 +1,6344 @@
+{
+ "meta": {
+  "creator": "cds-dk 8.0.2"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "insurance_claim.SAP__Message": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "code": {
+     "type": "cds.LargeString",
+     "notNull": true
+    },
+    "message": {
+     "type": "cds.LargeString",
+     "notNull": true
+    },
+    "target": {
+     "type": "cds.LargeString"
+    },
+    "additionalTargets": {
+     "items": {
+      "type": "cds.LargeString",
+      "notNull": true
+     }
+    },
+    "transition": {
+     "type": "cds.Boolean",
+     "notNull": true
+    },
+    "numericSeverity": {
+     "type": "cds.Integer",
+     "@odata.Type": "Edm.Byte",
+     "notNull": true
+    },
+    "longtextUrl": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "insurance_claim": {
+   "kind": "service",
+   "@cds.external": true,
+   "@CodeList.CurrencyCodes": {
+    "Url": "../../../../default/iwbep/common/0001/$metadata",
+    "CollectionPath": "Currencies"
+   },
+   "@CodeList.UnitsOfMeasure": {
+    "Url": "../../../../default/iwbep/common/0001/$metadata",
+    "CollectionPath": "UnitsOfMeasure"
+   },
+   "@Aggregation.ApplySupported": {
+    "Transformations": [
+     "aggregate",
+     "groupby",
+     "filter"
+    ],
+    "Rollup": {
+     "#": "None"
+    }
+   },
+   "@Common.ApplyMultiUnitBehaviorForSortingAndFiltering": true,
+   "@Capabilities.FilterFunctions": [
+    "eq",
+    "ne",
+    "gt",
+    "ge",
+    "lt",
+    "le",
+    "and",
+    "or",
+    "contains",
+    "startswith",
+    "endswith",
+    "any",
+    "all"
+   ],
+   "@Capabilities.SupportedFormats": [
+    "application/json",
+    "application/pdf"
+   ],
+   "@PDF.Features": {
+    "DocumentDescriptionReference": "../../../../default/iwbep/common/0001/$metadata",
+    "DocumentDescriptionCollection": "MyDocumentDescriptions",
+    "ArchiveFormat": true,
+    "Border": true,
+    "CoverPage": true,
+    "FitToPage": true,
+    "FontName": true,
+    "FontSize": true,
+    "Margin": true,
+    "Padding": true,
+    "Signature": true,
+    "HeaderFooter": true,
+    "ResultSizeDefault": 20000,
+    "ResultSizeMaximum": 20000
+   },
+   "@Capabilities.KeyAsSegmentSupported": true,
+   "@Capabilities.AsynchronousRequestsSupported": true,
+   "@Authorization.SecuritySchemes": [
+    {
+     "Authorization": "OAuth2Auth",
+     "RequiredScopes": []
+    },
+    {
+     "Authorization": "BasicAuth"
+    }
+   ],
+   "@Authorization.Authorizations": [
+    {
+     "$Type": "Auth.OAuth2AuthCode",
+     "Name": "OAuth2Auth",
+     "RefreshUrl": "https://{host}:{port}",
+     "AuthorizationUrl": "https://{host}:{port}",
+     "TokenUrl": "https://{host}:{port}",
+     "Scopes": []
+    },
+    {
+     "$Type": "Auth.Http",
+     "Name": "BasicAuth",
+     "Scheme": "basic"
+    }
+   ]
+  },
+  "insurance_claim.InsClmSrvcsLossLocSFC": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmFactCaptureCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "FactsCapt.Cat.",
+     "@Common.QuickInfo": "Facts Capture Category"
+    },
+    "InsurFactsSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject",
+     "@Common.QuickInfo": "ID of Claim Subobject"
+    },
+    "InsurClmFactCaptureQstn": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsurClmFactCaptureAnswer": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Answer",
+     "@Common.QuickInfo": "Facts Capture: Answer"
+    },
+    "InsurClmFactCaptureSqncVariant": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Variant",
+     "@Common.QuickInfo": "Variant of a Question Sequence"
+    },
+    "InsurClmFactCaptureQstnPos": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Position",
+     "@Common.QuickInfo": "Position of Question in Sequence"
+    },
+    "InsurClmFactCaptureQstnSqnc": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question Seq.",
+     "@Common.QuickInfo": "Facts Capture: Key of Question Sequence"
+    },
+    "InsurClmFactCaptureSqncVersion": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.QuickInfo": "Version of Question Sequence"
+    },
+    "InsurClmChangeDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsuranceClaimChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClmFactFreeTextAnswerCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "User-DefTextInp",
+     "@Common.QuickInfo": "Category for User-Defined Text Input"
+    },
+    "InsurClmFactCaptureQstnCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "? Category",
+     "@Common.QuickInfo": "Structure Facts Capture: Question Category"
+    },
+    "InsurClmFactCaptureQstnShrtTxt": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Short Text",
+     "@Common.QuickInfo": "Facts Capture: Question Short Text"
+    },
+    "InsurClmFactCaptureQstnLongTxt": {
+     "type": "cds.String",
+     "length": 80,
+     "notNull": true,
+     "@Common.Label": "Long Text",
+     "@Common.QuickInfo": "Facts Capture: Question Long Text"
+    },
+    "InsurClmFactAnswerShortText": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Answer - short text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Short Text"
+    },
+    "InsurClmFactAnswerLongText": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Answer - long text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Long Text"
+    },
+    "InsurClmFactCaptureTextAnswer": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactUsrSeldAnswerKeys": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactQstnIsMltplChoice": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Multip. answers",
+     "@Common.QuickInfo": "Flag: Multiple Answers Allowed?"
+    },
+    "InsurClmFactCaptureNextQstn": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Loss Location SFC",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.UpdateRestrictions.Updatable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsClmSrvcsOrignOfLsSFC": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmFactCaptureCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "FactsCapt.Cat.",
+     "@Common.QuickInfo": "Facts Capture Category"
+    },
+    "InsurFactsSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject",
+     "@Common.QuickInfo": "ID of Claim Subobject"
+    },
+    "InsurClmFactCaptureQstn": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsurClmFactCaptureAnswer": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Answer",
+     "@Common.QuickInfo": "Facts Capture: Answer"
+    },
+    "InsurClmFactCaptureSqncVariant": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Variant",
+     "@Common.QuickInfo": "Variant of a Question Sequence"
+    },
+    "InsurClmFactCaptureQstnPos": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Position",
+     "@Common.QuickInfo": "Position of Question in Sequence"
+    },
+    "InsurClmFactCaptureQstnSqnc": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question Seq.",
+     "@Common.QuickInfo": "Facts Capture: Key of Question Sequence"
+    },
+    "InsurClmFactCaptureSqncVersion": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.QuickInfo": "Version of Question Sequence"
+    },
+    "InsurClmChangeDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsuranceClaimChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClmFactCaptureQstnCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "? Category",
+     "@Common.QuickInfo": "Structure Facts Capture: Question Category"
+    },
+    "InsurClmFactCaptureQstnShrtTxt": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Short Text",
+     "@Common.QuickInfo": "Facts Capture: Question Short Text"
+    },
+    "InsurClmFactCaptureQstnLongTxt": {
+     "type": "cds.String",
+     "length": 80,
+     "notNull": true,
+     "@Common.Label": "Long Text",
+     "@Common.QuickInfo": "Facts Capture: Question Long Text"
+    },
+    "InsurClmFactAnswerShortText": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Answer - short text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Short Text"
+    },
+    "InsurClmFactAnswerLongText": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Answer - long text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Long Text"
+    },
+    "InsurClmFactCaptureTextAnswer": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactUsrSeldAnswerKeys": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactQstnIsMltplChoice": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Multip. answers",
+     "@Common.QuickInfo": "Flag: Multiple Answers Allowed?"
+    },
+    "InsurClmFactCaptureNextQstn": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Srvcs SFC for Origin Of Loss",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.UpdateRestrictions.Updatable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsClmSrvcsParticipantSFC": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject"
+    },
+    "InsurClmSubobjectCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "InsurClmParticipantRole": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "ParticipantRole",
+     "@Common.Heading": "Role",
+     "@Common.QuickInfo": "Participant Role Key"
+    },
+    "BusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participant BP No.",
+     "@Common.Heading": "Partic.No.",
+     "@Common.QuickInfo": "Claim Participant"
+    },
+    "InsurClmFactCaptureCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "FactsCapt.Cat.",
+     "@Common.QuickInfo": "Facts Capture Category"
+    },
+    "InsurFactsSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject",
+     "@Common.QuickInfo": "ID of Claim Subobject"
+    },
+    "InsurClmFactCaptureQstn": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsurClmFactCaptureAnswer": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Answer",
+     "@Common.QuickInfo": "Facts Capture: Answer"
+    },
+    "InsurClmFactFreeTextAnswerCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "User-DefTextInp",
+     "@Common.QuickInfo": "Category for User-Defined Text Input"
+    },
+    "InsurClmFactCaptureQstnPos": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Position",
+     "@Common.QuickInfo": "Position of Question in Sequence"
+    },
+    "InsurClmFactCaptureQstnSqnc": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question Seq.",
+     "@Common.QuickInfo": "Facts Capture: Key of Question Sequence"
+    },
+    "InsurClmFactCaptureSqncVersion": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.QuickInfo": "Version of Question Sequence"
+    },
+    "InsurClmFactCaptureSqncVariant": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Variant",
+     "@Common.QuickInfo": "Variant of a Question Sequence"
+    },
+    "InsurClmFactCaptureQstnCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "? Category",
+     "@Common.QuickInfo": "Structure Facts Capture: Question Category"
+    },
+    "InsurClmFactCaptureQstnShrtTxt": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Short Text",
+     "@Common.QuickInfo": "Facts Capture: Question Short Text"
+    },
+    "InsurClmFactCaptureQstnLongTxt": {
+     "type": "cds.String",
+     "length": 80,
+     "notNull": true,
+     "@Common.Label": "Long Text",
+     "@Common.QuickInfo": "Facts Capture: Question Long Text"
+    },
+    "InsurClmFactAnswerShortText": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.Label": "Answer - short text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Short Text"
+    },
+    "InsurClmFactAnswerLongText": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Answer - long text",
+     "@Common.QuickInfo": "Structured Facts Capture: Answer Long Text"
+    },
+    "InsurClmFactCaptureTextAnswer": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactUsrSeldAnswerKeys": {
+     "type": "cds.String",
+     "length": 254,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Free Format Answer Text"
+    },
+    "InsurClmFactQstnIsMltplChoice": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Multip. answers",
+     "@Common.QuickInfo": "Flag: Multiple Answers Allowed?"
+    },
+    "InsurClmFactCaptureNextQstn": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Question",
+     "@Common.QuickInfo": "Facts Capture: Question"
+    },
+    "InsurClmIsHiddenFlag": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Checkbox"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmPrtcpnt": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsParticipant",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Participant SFC",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.UpdateRestrictions.Updatable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsuranceClaimServicesPayment": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim of Payment"
+    },
+    "InsurClmPayt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Payment Number",
+     "@Common.Heading": "Payment",
+     "@Common.QuickInfo": "Number of Claim Payment"
+    },
+    "InsurClmPaytCat": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Payt RecordType",
+     "@Common.Heading": "Rec.Type",
+     "@Common.QuickInfo": "Record Type of Payment"
+    },
+    "InsurClmPaymentType": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Payment Type",
+     "@Common.Heading": "Paymnt Type",
+     "@Common.QuickInfo": "Payment Type (Final Payment, Payment After Closure of Claim)"
+    },
+    "InsurClmPaymentCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.Heading": "Crcy",
+     "@Common.QuickInfo": "Claim Payment Currency"
+    },
+    "InsurClmPaymentDatabaseStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Internal Status",
+     "@Common.Heading": "Internal Payment Status",
+     "@Common.QuickInfo": "Internal Payment Status (Database Status)"
+    },
+    "InsurClmAssignUUID": {
+     "type": "cds.UUID",
+     "@Common.Label": "Link UUID",
+     "@Common.Heading": "UUID of Link",
+     "@Common.QuickInfo": "UUID of Entry to be Linked"
+    },
+    "InsurClmPaytPostgDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Posting Date",
+     "@Common.Heading": "Postg Date"
+    },
+    "InsurClmPaytMethod": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Payment Method"
+    },
+    "InsurClmPaytCheque": {
+     "type": "cds.String",
+     "length": 13,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Check Number",
+     "@Common.QuickInfo": "Check Number for Manual Check Payments"
+    },
+    "InsurClmBankID": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Bank Details",
+     "@Common.QuickInfo": "Bank Details ID"
+    },
+    "InsurClmPaytDocRefInSubLedger": {
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Doc. Reference",
+     "@Common.Heading": "Doc. Ref.",
+     "@Common.QuickInfo": "Reference for Payment Document Created in Subledger"
+    },
+    "InsurClmPaytDueDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Net Due Date",
+     "@Common.QuickInfo": "Due Date for Net Payment"
+    },
+    "InsurClmPaytHasAlreadyPaid": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Already Paid",
+     "@Common.QuickInfo": "Payment Already Made"
+    },
+    "InsurClmPaytHasAddlPayee": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Addl Payee",
+     "@Common.QuickInfo": "Additional Payee (ICLPAYEE)"
+    },
+    "InsurClmPaytAddrNmbrForChecks": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Payee's address",
+     "@Common.Heading": "Address",
+     "@Common.QuickInfo": "Address Number for Checks"
+    },
+    "InsurClmPaytCheckRcpntAddrNmbr": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Payee's address",
+     "@Common.Heading": "Address",
+     "@Common.QuickInfo": "Address Number for Checks"
+    },
+    "InsurClmPaytNote": {
+     "type": "cds.String",
+     "length": 100,
+     "notNull": true,
+     "@Common.Label": "Note to Payee",
+     "@Common.Heading": "Purpose",
+     "@Common.QuickInfo": "Payment Note"
+    },
+    "InsurClmServicePeriodStartDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Service Start",
+     "@Common.QuickInfo": "Service Start Date"
+    },
+    "InsurClmServicePeriodEndDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Service End",
+     "@Common.QuickInfo": "Service End Date"
+    },
+    "InsurClmChangedBy": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmChangeTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Payment",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClaimServicesClaimItem": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsurClmItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item"
+    },
+    "InsurClmItemEvaluation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Evaluation",
+     "@Common.QuickInfo": "Claim Item Evaluation"
+    },
+    "LastChangeDateTime": {
+     "type": "cds.Timestamp",
+     "@odata.Precision": 7,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Long Form (YYYYMMDDhhmmssmmmuuun)"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClmItemCat": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item Category"
+    },
+    "InsurClmItemType": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Object Type",
+     "@Common.Heading": "Claim Item Object Type",
+     "@Common.QuickInfo": "Claim Item Object Type"
+    },
+    "InsurClmCoverageType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Coverage Type"
+    },
+    "InsurBnftType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Benefit Type"
+    },
+    "InsurClmItemStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Status of Claim Item"
+    },
+    "InsurClmItemRjcnRsn": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Rejection Reasn",
+     "@Common.QuickInfo": "Claim Item Rejection Reason"
+    },
+    "InsurClmItemDescription": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "Description",
+     "@Common.Heading": "Claim Item Description",
+     "@Common.QuickInfo": "Claim Item Description"
+    },
+    "InsurClmItemEvalBase": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Evaluation By",
+     "@Common.QuickInfo": "Type of Evaluator"
+    },
+    "InsurClmItemEvalQuantity": {
+     "type": "cds.Decimal",
+     "precision": 10,
+     "scale": 3,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmItemEvalQuantityUnit"
+     },
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Claim Item: Number (Days, Visits, Area) for Evaluation"
+    },
+    "InsurClmItemEvalQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.Heading": "Claim Item: Unit of Measure",
+     "@Common.QuickInfo": "Claim Item: Unit of Measurement"
+    },
+    "InsurClmItemEvalPerUnitAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Amount per Unit"
+    },
+    "InsurClmItemEvalAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Evaluated Amount"
+    },
+    "InsurClmItemEvalCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Evaluated Amount"
+    },
+    "InsurClmItmEvalActlCshValAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Act.Cash Value",
+     "@Common.QuickInfo": "Actual Cash Value"
+    },
+    "InsurClmItmEvalActlCshValPct": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "ACV Part",
+     "@Common.QuickInfo": "Proportion of Actual Cash Value to Original Cash Value in %"
+    },
+    "InsurClmItemTaxCode": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Tax Code"
+    },
+    "InsurClmItemSubclmRef": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Belongs To",
+     "@Common.QuickInfo": "Subclaim to Which a Claim Item Is Assigned"
+    },
+    "InsurClmItemRef": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item"
+    },
+    "InsurClmDamagedObject": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Damaged Object"
+    },
+    "InsurClmItemLiabilityRate": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "Liability Rate",
+     "@Common.QuickInfo": "Liability Rate in Percent"
+    },
+    "InsurClmItemHasAlreadyPaidOut": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "TRUE",
+     "@Common.QuickInfo": "Data element for domain BOOLE: TRUE (='X') and FALSE (=' ')"
+    },
+    "InsurClmItemClmdAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Amount Requestd",
+     "@Common.Heading": "Amount Requested",
+     "@Common.QuickInfo": "Amount Requested"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Claim Item",
+   "@Common.SemanticKey": [
+    "InsurClmSubclm"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmItemEvalQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemEvalPerUnitAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemEvalAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItmEvalActlCshValAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemClmdAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClaimServicesSubclaim": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "CreationDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "LastChangeDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "InsuranceClaimChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Created By"
+    },
+    "InsurClmLifeCycSts": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Status of Subclaim"
+    },
+    "InsurClmSubclmStsChgdOnDteTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "InsuranceClaimIsNoClaimMade": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "No Claim Made"
+    },
+    "InsurClmSubclmType": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Type",
+     "@Common.Heading": "Subclm Type"
+    },
+    "InsurClmSubrogtnRecoveryStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subrogatn/Rcvry",
+     "@Common.Heading": "SubroR",
+     "@Common.QuickInfo": "Subrogation/Recovery Status"
+    },
+    "InsurClmActyAssgmtSts": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Assignment Status",
+     "@Common.Heading": "Assgmt Status",
+     "@Common.QuickInfo": "Assignment Status of a Claim Subobject"
+    },
+    "InsurClmActyHdlrType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hdlr Cat.",
+     "@Common.QuickInfo": "Object Category of Subclaim Handler"
+    },
+    "InsurClmActyHdlrTypeGrp": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hdlr Cat.",
+     "@Common.QuickInfo": "Object Category of Subclaim Handler Group"
+    },
+    "InsurClmSubclmHandlerGroupName": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CH Group",
+     "@Common.Heading": "Claim Handler Group",
+     "@Common.QuickInfo": "Claim Handler Group for Subclaims"
+    },
+    "InsurClmSubclaimDescription": {
+     "type": "cds.String",
+     "length": 20,
+     "notNull": true,
+     "@Common.Label": "Claim/Subclaim",
+     "@Common.Heading": "Belongs to Claim/Subclm",
+     "@Common.QuickInfo": "Name of Claim/Subclaim"
+    },
+    "InsurClmBenefitTypeTree": {
+     "type": "cds.String",
+     "length": 8,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Benefit Type Tree"
+    },
+    "InsurClmBnftTypeTreeGeneration": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Generation",
+     "@Common.QuickInfo": "Generation of Benefit Type Tree"
+    },
+    "InsurClmBnftTypeTreeVersion": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.QuickInfo": "Version of Benefit Type Tree"
+    },
+    "InsurClmCoverage": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Coverage",
+     "@Common.Heading": "Coverge"
+    },
+    "IsInProcess": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Claim Handling Actve",
+     "@Common.Heading": "Claim Handling Process Is Active",
+     "@Common.QuickInfo": "\"Claim Handling\" Process Active"
+    },
+    "IsClosed": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Closed",
+     "@Common.QuickInfo": "\"Close (Sub)Claim\" Process Executed"
+    },
+    "InsurClmIsSubclaimInvalid": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Subclaim Invalid"
+    },
+    "InsurClmIsSubclaimRejected": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Rejected",
+     "@Common.QuickInfo": "Claim/Subclaim Rejected"
+    },
+    "InsurClmWrkflwExecDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "InsurClmWorkflowStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "WF Status",
+     "@Common.QuickInfo": "Workflow Status"
+    },
+    "InsurClmSubclaimAssignUUID": {
+     "type": "cds.UUID",
+     "@Common.Label": "Link UUID",
+     "@Common.Heading": "UUID of Link",
+     "@Common.QuickInfo": "UUID of Entry to be Linked"
+    },
+    "InsurClmCvrgConfirmedFlag": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Compensable",
+     "@Common.QuickInfo": "Indication of Compensability"
+    },
+    "InsurClmFraudFlag": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Potential Fraud",
+     "@Common.QuickInfo": "Flag: Potential Fraud?"
+    },
+    "InsurClmSalvageFlag": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Salvage",
+     "@Common.Heading": "Salv",
+     "@Common.QuickInfo": "Flag: Salvage?"
+    },
+    "InsurClmLitigationFlag": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Litigation",
+     "@Common.QuickInfo": "Flag: Litigation?"
+    },
+    "InsurClmNegotiationFlag": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Negotiation",
+     "@Common.QuickInfo": "Flag: Negotiation?"
+    },
+    "InsurClmIsSubclaimComplete": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "List Complete",
+     "@Common.QuickInfo": "Flag: Claim Item List (Presumably) Complete"
+    },
+    "InsurClmSubclmStsRsn": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status Reason",
+     "@Common.QuickInfo": "Reason for Changing the Status"
+    },
+    "InsurClmComplexity": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Complexity",
+     "@Common.QuickInfo": "Complexity of Claim/Subclaim"
+    },
+    "InsurClmIsOtherInsurance": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Other Insurance",
+     "@Common.QuickInfo": "Flag: Other Insurance?"
+    },
+    "InsuranceClaimMaxItemNumber": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Highest ClmItNo",
+     "@Common.QuickInfo": "Current Highest Claim Item Number"
+    },
+    "InsuranceClaimOverruleReason": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Overruling Reason"
+    },
+    "InsuranceClaimBenefitStartDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Benefit Start",
+     "@Common.Heading": "Start of Benefit",
+     "@Common.QuickInfo": "Start of Benefit"
+    },
+    "InsuranceClaimBenefitEndDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Benefit End",
+     "@Common.Heading": "End of Benefit",
+     "@Common.QuickInfo": "End of Benefit"
+    },
+    "InsurClmCompensationAbility": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Compensability"
+    },
+    "InsurClmSubrogtnPotential": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subro/Rcv Potntl",
+     "@Common.QuickInfo": "Subrogation/Recovery Potential of a Subclaim (Check Status)"
+    },
+    "InsurClmBnftCalcSqncNmbr": {
+     "type": "cds.String",
+     "length": 20,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Ben.Calculation No.",
+     "@Common.Heading": "Number of Benefit Calculation",
+     "@Common.QuickInfo": "Sequence Number of Benefit Calculation"
+    },
+    "InsurClmInsuredObject": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Insured Object No.",
+     "@Common.Heading": "Number of Insured Object",
+     "@Common.QuickInfo": "Insured Object Number"
+    },
+    "InsurClmArchivingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Archiving Status"
+    },
+    "InsurClmArchResubmsnDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Resubmission Date"
+    },
+    "InsurClmArchRjcnRsn": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.Label": "Rejection Reason"
+    },
+    "InsurClmContractVersion": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "VersnCovgeContr",
+     "@Common.QuickInfo": "Version Number of Coverage Contract"
+    },
+    "InsurClmSubclmHandlerName": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Handler",
+     "@Common.Heading": "ClaimHandler",
+     "@Common.QuickInfo": "Claim Handler for Subclaim"
+    },
+    "InsuranceClaimIsStatusHandler": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Claim Handling Actve",
+     "@Common.Heading": "Claim Handling Process Is Active",
+     "@Common.QuickInfo": "\"Claim Handling\" Process Active"
+    },
+    "InsurClmCoverageType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Coverage Type"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsSubclmAttch": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsSubclmAttch",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsSubclmItem": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsSubclmItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsTask": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClaimServicesTask",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   },
+   "actions": {
+    "SetSubClaimToClosed": {
+     "kind": "action",
+     "params": {
+      "_it": {
+       "type": "$self",
+       "notNull": true
+      }
+     },
+     "returns": {
+      "type": "insurance_claim.InsurClaimServicesSubclaim",
+      "notNull": true
+     }
+    },
+    "SetSubClaimToOpen": {
+     "kind": "action",
+     "params": {
+      "_it": {
+       "type": "$self",
+       "notNull": true
+      }
+     },
+     "returns": {
+      "type": "insurance_claim.InsurClaimServicesSubclaim",
+      "notNull": true
+     }
+    }
+   },
+   "@Common.Label": "Claim Services Subclaim",
+   "@Common.SemanticKey": [
+    "InsurClmSubclm"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.NavigationRestrictions.RestrictedProperties": [
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsSubclmAttch"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsSubclmItem"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    }
+   ],
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClaimServicesTask": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsurClmActivitySequenceNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "No.",
+     "@Common.QuickInfo": "Sequence Number of Activity"
+    },
+    "CreationDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "CreationDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmActivity": {
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Task",
+     "@Common.QuickInfo": "Activity Management: Task"
+    },
+    "InsurClmTaskManualFlag": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Manually",
+     "@Common.QuickInfo": "Task Set Manually"
+    },
+    "InsurClmDueDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmDueDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmTaskTimeDifference": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true
+    },
+    "InsurClmTaskCompleted": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Task Completed"
+    },
+    "InsurClmActivityStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status of a Task",
+     "@Common.QuickInfo": "Activity Management: Status of a Task"
+    },
+    "InsurClmProposedHandler": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Handler",
+     "@Common.Heading": "Proposed Handler",
+     "@Common.QuickInfo": "Proposed Handler for This Manual Task"
+    },
+    "InsurClmProposeHandlerCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Handler Cat.",
+     "@Common.QuickInfo": "Manual Task: Claim Handler Category"
+    },
+    "InsurClmSubActivityUsed": {
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Activity Used",
+     "@Common.QuickInfo": "Activity Used to Process the Task"
+    },
+    "InsurClmSubobjectCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "InsurClmNavigate": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Navigation Target",
+     "@Common.Heading": "Navigatn Target"
+    },
+    "InsurClmTaskName": {
+     "type": "cds.String",
+     "length": 128,
+     "notNull": true,
+     "@Common.Label": "Text",
+     "@Common.QuickInfo": "Task Name"
+    },
+    "InsurClmSubobject": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject",
+     "@Common.QuickInfo": "ID of Claim Subobject for Navigation"
+    },
+    "InsurClmActyAssgmtSts": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Assignment Status",
+     "@Common.Heading": "Assgmt Status",
+     "@Common.QuickInfo": "Assignment Status of a Claim Subobject"
+    },
+    "InsurClmActyHdlrType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hdlr Cat.",
+     "@Common.QuickInfo": "Object Category of Subclaim Handler"
+    },
+    "InsurClmActyHdlr": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hdlr for Task",
+     "@Common.Heading": "Claim Handler for Task",
+     "@Common.QuickInfo": "Claim Handler for Task"
+    },
+    "InsurClmActyHdlrTypeGrp": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hdlr Cat.",
+     "@Common.QuickInfo": "Object Category of Subclaim Handler Group"
+    },
+    "InsurClmActyHdlrGrp": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CH Gp Task",
+     "@Common.Heading": "Claim Handler Group for Task",
+     "@Common.QuickInfo": "Claim Handler Group for Task"
+    },
+    "InsurClmActyResubmsnDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
+    },
+    "InsurClmActyTaskType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Task Type",
+     "@Common.QuickInfo": "Activity Management: Task Type"
+    },
+    "InsurClmActyExprOrign": {
+     "type": "cds.String",
+     "length": 20,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Expressn Resp.",
+     "@Common.Heading": "Expression Responsible",
+     "@Common.QuickInfo": "Expression Responsible for Anomaly (Control Predicate)"
+    },
+    "InsurClmActy1stSubmsnDuDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmActyLtstStrtDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmActyLtstEndDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmActyWrkflwPrio": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Priority",
+     "@Common.Heading": "Priority of Task",
+     "@Common.QuickInfo": "Activity Management: Priority of Task - Workflow"
+    },
+    "InsurClmActyAuthznGrp": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Authorization Group",
+     "@Common.Heading": "Author.Gp"
+    },
+    "InsurClmActyIsSystActy": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "System Activity",
+     "@Common.Heading": "Activity Is System Activity",
+     "@Common.QuickInfo": "Activity Is System Activity"
+    },
+    "InsurClmWorkflowStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "WF Status",
+     "@Common.QuickInfo": "Workflow Status"
+    },
+    "InsurClmActyIdOfWrkItm": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Work Item ID",
+     "@Common.QuickInfo": "Work item ID"
+    },
+    "InsurClmActyIsMnlTsk": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Purely Manual Task"
+    },
+    "InsurClaimBundleType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Bundle Type"
+    },
+    "InsurClaimBundleTaskLogEntry": {
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Task/Log",
+     "@Common.QuickInfo": "Claim Bundle: Task/Log Entry"
+    },
+    "InsurClaimIsManualCharacter": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Manual Character",
+     "@Common.Heading": "Manual Character of Task",
+     "@Common.QuickInfo": "Task Has Manual Character"
+    },
+    "InsurClmObjectCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Object Category",
+     "@Common.QuickInfo": "Claims Management Object Category"
+    },
+    "InsuranceClaimObject": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Claims Management Object"
+    },
+    "InsurClmSubclaimReferenceTask": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Ref.Task Subclaim",
+     "@Common.Heading": "Subclaim of Reference Task",
+     "@Common.QuickInfo": "Subclaim of Reference Task"
+    },
+    "InsurClmRefNmbrActySqncNmbr": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Reference Task No.",
+     "@Common.Heading": "Number of Reference Task",
+     "@Common.QuickInfo": "Sequence Number of Reference Task"
+    },
+    "InsuranceClaimReferenceTaskCat": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Ref. Task Category",
+     "@Common.Heading": "Category of Reference Task",
+     "@Common.QuickInfo": "Category of Reference Task"
+    },
+    "InsuranceClaimParentSubclaim": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Higher-Level Claim Subobject - Subclaim"
+    },
+    "InsurClmParSubobjCat": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Higher-Level Claim Subobject - Category",
+     "@Common.Heading": "Higher-Level Claim Subobject - Subobject Category",
+     "@Common.QuickInfo": "Higher-Level Claim Subobject - Subobject Category"
+    },
+    "InsuranceClaimParentSubobject": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Higher-Level Claim Subobject - Object",
+     "@Common.Heading": "Higher-Level Claim Subobject - Subobject",
+     "@Common.QuickInfo": "Higher-Level Claim Subobject - Subobject"
+    },
+    "InsuranceClaimTextLanguage": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.Label": "Language Text",
+     "@Common.QuickInfo": "Language Key of Field for Name of Task"
+    },
+    "InsuranceClaimIsForwarded": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Boole",
+     "@Common.QuickInfo": "Space = false, 'X' = true"
+    },
+    "InsuranceDataAgingObjectDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Data Aging",
+     "@Common.Heading": "Data Aging Filter",
+     "@Common.QuickInfo": "Data Filter Value for Data Aging"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Task",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsCorrespnc": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsurClmActive": {
+     "key": true,
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Active/Suspense",
+     "@Common.QuickInfo": "Table entry is active (A) or in suspense (S)"
+    },
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsuranceClaimDocumentNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Number of Document in Claim"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsuranceClaimDocumentCode": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Document"
+    },
+    "InsurClmCorrespncRcpnt": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Corresp. Recipient",
+     "@Common.Heading": "Receiver",
+     "@Common.QuickInfo": "Correspondence Recipient"
+    },
+    "InsurClmIsDocEnteredMnlly": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Manually",
+     "@Common.QuickInfo": "Flag: Document entered manually"
+    },
+    "InsurClmIsDocCpySentToAgt": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Copy of document",
+     "@Common.QuickInfo": "Flag: Copy of Document will be sent to Agent"
+    },
+    "InsurClmDocRelDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmDocReleasedBy": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Released by",
+     "@Common.QuickInfo": "User who released document for despatch"
+    },
+    "InsurClmDocSendType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Transmission method",
+     "@Common.Heading": "Trans.Meth",
+     "@Common.QuickInfo": "Document Transmission Method"
+    },
+    "CorrespondenceKey": {
+     "type": "cds.String",
+     "length": 36,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Correspondence Key",
+     "@Common.Heading": "Key"
+    },
+    "InsurClmSubobjectCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "InsurClmSubobject": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject"
+    },
+    "InsurClmDocApplFormKey": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Application form"
+    },
+    "InsurClmDocIsPrinted": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Already Printed",
+     "@Common.QuickInfo": "Flag for Print Already Made"
+    },
+    "InsurClmDocLanguage": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.Label": "Language",
+     "@Common.QuickInfo": "Language indicator in the application form"
+    },
+    "InsuranceClaimActivityCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Activity Category",
+     "@Common.Heading": "Act"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services Correspondence",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsDamagedObject": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmDamagedObject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Damaged Object"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "CreationDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Created On/At",
+     "@Common.QuickInfo": "Created: Date + Time"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Created By"
+    },
+    "InsurClmDamageCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsuranceClaimDamageCategory",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Damage category",
+     "@Common.QuickInfo": "Damage Category"
+    },
+    "InsurClmDamageSeverity": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsuranceClaimDamageSeverity",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Damage Severity"
+    },
+    "InsurClmProbableLossAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmProbableLossAmountCrcy"
+     },
+     "@Common.Label": "Probable Loss Amount",
+     "@Common.QuickInfo": "Probable Amount of Loss"
+    },
+    "InsurClmInsuredObject": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Insured Object No.",
+     "@Common.Heading": "Number of Insured Object",
+     "@Common.QuickInfo": "Insured Object Number"
+    },
+    "InsurClmInsuredObjectCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsurClmInsuredObjectCategory",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Category",
+     "@Common.QuickInfo": "Category of Insured Object"
+    },
+    "InsurClmInsuredObjectType": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Object Type",
+     "@Common.QuickInfo": "Type of Damaged or Insured Object"
+    },
+    "InsurClmProbableLossAmountCrcy": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Probable Amount of Loss"
+    },
+    "InsurClmDmgdObjHasLblty": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Liability",
+     "@Common.QuickInfo": "Flag: Liability?"
+    },
+    "InsuranceClaimInsurableObject": {
+     "type": "cds.String",
+     "length": 9,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Insurable Obj.",
+     "@Common.QuickInfo": "Insurable Object"
+    },
+    "InsurClmDamageDescription": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Damage Description",
+     "@Common.QuickInfo": "Description of Damage"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsDmgdVeh": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsDmgdVehicle",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsDmgdVehSalvg": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsDmgdVehSalvg",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsInjured": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsInjuredPerson",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    }
+   },
+   "@Common.Label": "Claim Services Damaged Object",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.NavigationRestrictions.RestrictedProperties": [
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsDmgdVeh"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsInjured"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    }
+   ],
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmProbableLossAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsDmgdVehicle": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmDamagedObject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Damaged vehicle"
+    },
+    "InsurClmDamagedObjectLocation": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Location where damaged object can be seen"
+    },
+    "InsurClmInsuredObjectMake": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Make",
+     "@Common.Heading": "Make of Insured Object",
+     "@Common.QuickInfo": "Make of Insured Object"
+    },
+    "InsurClmInsuredObjectModel": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Model",
+     "@Common.Heading": "Insured Object Model",
+     "@Common.QuickInfo": "Insured Object Model"
+    },
+    "InsurClmConstructionYear": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Constructn Year",
+     "@Common.Heading": "Construction Year of Ins. Vehicle",
+     "@Common.QuickInfo": "Construction Year of Insured Vehicle"
+    },
+    "InsurClmVehicleIdentification": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Vehicle ID No.",
+     "@Common.QuickInfo": "Vehicle Identification Number"
+    },
+    "InsurClmVehiclePlateNumber": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Plate Number",
+     "@Common.QuickInfo": "License Plate Number"
+    },
+    "InsurClmVehicleMileage": {
+     "type": "cds.Decimal",
+     "precision": 6,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleMileageUnit"
+     },
+     "@Common.Label": "Mileage"
+    },
+    "InsurClmVehicleMileageUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.QuickInfo": "Unit for mileage"
+    },
+    "InsurClmVehicleValueAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmVehObjectValCurrency"
+     },
+     "@Common.Label": "Value at Conclusion",
+     "@Common.QuickInfo": "Value of Object at Contract Conclusion"
+    },
+    "InsurClmVehObjectValCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Value at Conclusion of Policy"
+    },
+    "InsurClmInspectionDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmInsuredVehicleCategory": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Category",
+     "@Common.Heading": "Category of Insured Object",
+     "@Common.QuickInfo": "Category of Insured Object"
+    },
+    "InsurClmVehicleEngineCapacity": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleEngineCapUnit"
+     },
+     "@Common.Label": "Engine Capacity",
+     "@Common.QuickInfo": "Engine Capacity of Insured Vehicle"
+    },
+    "InsurClmVehicleEngineCapUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit of measure",
+     "@Common.QuickInfo": "Unit for Cubic Capacity"
+    },
+    "InsurClmSeasnlLicPlateValdFrm": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Month From",
+     "@Common.QuickInfo": "Month From Which Seasonal License Plate Issued"
+    },
+    "InsurClmSeasnlLicPlateValidTo": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Month to",
+     "@Common.QuickInfo": "Month up to Which Seasonal License Plate Issued"
+    },
+    "InsurClmVehicleGearType": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Gear Type"
+    },
+    "InsurClmVehiclePlateCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "InsurClmVehiclePlateRegion": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "InsurClmVehFrontTreadQuantity": {
+     "type": "cds.Decimal",
+     "precision": 2,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehTreadUnit"
+     },
+     "@Common.Label": "Front tread",
+     "@Common.QuickInfo": "Tread of Front Tires"
+    },
+    "InsurClmVehRearTreadQuantity": {
+     "type": "cds.Decimal",
+     "precision": 2,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehTreadUnit"
+     },
+     "@Common.Label": "Rear tread",
+     "@Common.QuickInfo": "Tread of Rear Tires"
+    },
+    "InsurClmVehTreadUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.QuickInfo": "Tread Unit"
+    },
+    "InsurClmChangeDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsuranceClaimChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClaimRegistrationDate": {
+     "type": "cds.Date"
+    },
+    "InsuranceClaimVehicleColor": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Color"
+    },
+    "InsurClmDmgdObjHasLblty": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Liability",
+     "@Common.QuickInfo": "Flag: Liability?"
+    },
+    "InsurClmDmgdVehInspNoteText": {
+     "type": "cds.String",
+     "length": 15,
+     "notNull": true,
+     "@Common.Label": "Note on Inspection"
+    },
+    "InsurClmVehTripPrps": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Purpose of trip",
+     "@Common.QuickInfo": "Purpose of Trip"
+    },
+    "InsuranceClaimVehicleLeased": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Leasing",
+     "@Common.QuickInfo": "Flag: Paid/Leased/Security Certificate"
+    },
+    "InsurClmVehIsDrivingPmtd": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Drivers License",
+     "@Common.QuickInfo": "Flag: Driving with permission?"
+    },
+    "InsurClmVehIsDamaged": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Damaged",
+     "@Common.QuickInfo": "Flag: Object Damaged?"
+    },
+    "InsurClmVehIsCited": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Vehicle Cited",
+     "@Common.QuickInfo": "Flag: Vehicle Cited?"
+    },
+    "InsurClmVehDrvrIsCited": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Driver cited",
+     "@Common.QuickInfo": "Flag: Driver Cited?"
+    },
+    "InsurClmVehIsPrfrdSuplr": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Pref. Vendor",
+     "@Common.QuickInfo": "Flag: Willing to Use Preferred Vendor?"
+    },
+    "InsurClmVehIsParked": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Vehicle Parked",
+     "@Common.QuickInfo": "Vehicle Was Parked When Loss Occurred"
+    },
+    "InsurClmVehHasPrevDamage": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Preexistng Dam.",
+     "@Common.QuickInfo": "Flag: Preexisting Damage?"
+    },
+    "InsurClmVehicleIsNotRoadworthy": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Not Roadworthy",
+     "@Common.QuickInfo": "Damaged Vehicle Is Not Roadworthy"
+    },
+    "InsurClmVehQtyInMlge": {
+     "type": "cds.Decimal",
+     "precision": 6,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleMileageUnit"
+     },
+     "@Common.Label": "Mileage"
+    },
+    "InsurClmRelshpOwnrAndPlcyHldr": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Rel. Owner/PH",
+     "@Common.QuickInfo": "Relationship between Owner and PH"
+    },
+    "InsurClmVehicleIsTotalLoss": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Total Loss",
+     "@Common.QuickInfo": "Flag: Total Loss"
+    },
+    "InsurClmDmgdItmIsStolen": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Stolen",
+     "@Common.QuickInfo": "Flag: Stolen?"
+    },
+    "InsurClmDmgdItmIsRecovered": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Recovered",
+     "@Common.QuickInfo": "Flag: Stolen Object Recovered?"
+    },
+    "InsurClaimVehRecoveryDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmVehLastOwnrChgDte": {
+     "type": "cds.Date"
+    },
+    "InsClmVehNextMandInspInYrMnth": {
+     "type": "cds.String",
+     "length": 7,
+     "notNull": true,
+     "@Common.Label": "Generelle Inspektion"
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "City"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.Label": "House Number",
+     "@Common.Heading": "House No."
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Street"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Postal Code",
+     "@Common.Heading": "Postl Code",
+     "@Common.QuickInfo": "City postal code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmDamagedObj": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsDamagedObject",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services For Damaged Vehicle",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmVehicleMileage"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehicleValueAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehicleEngineCapacity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehFrontTreadQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehRearTreadQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehQtyInMlge"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsDmgdVehSalvg": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmDamagedObject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Damaged vehicle"
+    },
+    "InsurClmDamagedObjectLocation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Location where damaged object can be seen"
+    },
+    "InsurClmInsuredObjectMake": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Make",
+     "@Common.Heading": "Make of Insured Object",
+     "@Common.QuickInfo": "Make of Insured Object"
+    },
+    "InsurClmInsuredObjectModel": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Model",
+     "@Common.Heading": "Insured Object Model",
+     "@Common.QuickInfo": "Insured Object Model"
+    },
+    "InsurClmConstructionYear": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Constructn Year",
+     "@Common.Heading": "Construction Year of Ins. Vehicle",
+     "@Common.QuickInfo": "Construction Year of Insured Vehicle"
+    },
+    "InsurClmVehicleIdentification": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Vehicle ID No.",
+     "@Common.QuickInfo": "Vehicle Identification Number"
+    },
+    "InsurClmVehiclePlateNumber": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Plate Number",
+     "@Common.QuickInfo": "License Plate Number"
+    },
+    "InsurClmVehicleMileage": {
+     "type": "cds.Decimal",
+     "precision": 6,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleMileageUnit"
+     },
+     "@Common.Label": "Mileage"
+    },
+    "InsurClmVehicleMileageUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.QuickInfo": "Unit for mileage"
+    },
+    "InsurClmVehicleValueAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmVehObjectValCurrency"
+     },
+     "@Common.Label": "Value at Conclusion",
+     "@Common.QuickInfo": "Value of Object at Contract Conclusion"
+    },
+    "InsurClmVehObjectValCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Value at Conclusion of Policy"
+    },
+    "InsurClmInspectionDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmInsuredVehicleCategory": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Category",
+     "@Common.Heading": "Category of Insured Object",
+     "@Common.QuickInfo": "Category of Insured Object"
+    },
+    "InsurClmVehicleEngineCapacity": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleEngineCapUnit"
+     },
+     "@Common.Label": "Engine Capacity",
+     "@Common.QuickInfo": "Engine Capacity of Insured Vehicle"
+    },
+    "InsurClmVehicleEngineCapUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit of measure",
+     "@Common.QuickInfo": "Unit for Cubic Capacity"
+    },
+    "InsurClmSeasnlLicPlateValdFrm": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Month From",
+     "@Common.QuickInfo": "Month From Which Seasonal License Plate Issued"
+    },
+    "InsurClmSeasnlLicPlateValidTo": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Month to",
+     "@Common.QuickInfo": "Month up to Which Seasonal License Plate Issued"
+    },
+    "InsurClmVehiclePlateRegion": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "InsurClmVehicleGearType": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Gear Type"
+    },
+    "InsurClmVehiclePlateCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "InsurClmVehFrontTreadQuantity": {
+     "type": "cds.Decimal",
+     "precision": 2,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehTreadUnit"
+     },
+     "@Common.Label": "Front tread",
+     "@Common.QuickInfo": "Tread of Front Tires"
+    },
+    "InsurClmVehRearTreadQuantity": {
+     "type": "cds.Decimal",
+     "precision": 2,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehTreadUnit"
+     },
+     "@Common.Label": "Rear tread",
+     "@Common.QuickInfo": "Tread of Rear Tires"
+    },
+    "InsurClmVehTreadUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.QuickInfo": "Tread Unit"
+    },
+    "InsurClmChangeDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsuranceClaimChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClaimRegistrationDate": {
+     "type": "cds.Date"
+    },
+    "InsuranceClaimVehicleColor": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Color"
+    },
+    "InsurClmDmgdObjHasLblty": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Liability",
+     "@Common.QuickInfo": "Flag: Liability?"
+    },
+    "InsurClmDmgdVehInspNoteText": {
+     "type": "cds.String",
+     "length": 15,
+     "notNull": true,
+     "@Common.Label": "Note on Inspection"
+    },
+    "InsurClmVehTripPrps": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Purpose of trip",
+     "@Common.QuickInfo": "Purpose of Trip"
+    },
+    "InsuranceClaimVehicleLeased": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Leasing",
+     "@Common.QuickInfo": "Flag: Paid/Leased/Security Certificate"
+    },
+    "InsurClmVehIsDrivingPmtd": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Drivers License",
+     "@Common.QuickInfo": "Flag: Driving with permission?"
+    },
+    "InsurClmVehIsDamaged": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Damaged",
+     "@Common.QuickInfo": "Flag: Object Damaged?"
+    },
+    "InsurClmVehIsCited": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Vehicle Cited",
+     "@Common.QuickInfo": "Flag: Vehicle Cited?"
+    },
+    "InsurClmVehDrvrIsCited": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Driver cited",
+     "@Common.QuickInfo": "Flag: Driver Cited?"
+    },
+    "InsurClmVehIsPrfrdSuplr": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Pref. Vendor",
+     "@Common.QuickInfo": "Flag: Willing to Use Preferred Vendor?"
+    },
+    "InsurClmVehIsParked": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Vehicle Parked",
+     "@Common.QuickInfo": "Vehicle Was Parked When Loss Occurred"
+    },
+    "InsurClmVehHasPrevDamage": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Preexistng Dam.",
+     "@Common.QuickInfo": "Flag: Preexisting Damage?"
+    },
+    "InsurClmVehicleIsNotRoadworthy": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Not Roadworthy",
+     "@Common.QuickInfo": "Damaged Vehicle Is Not Roadworthy"
+    },
+    "InsurClmVehQtyInMlge": {
+     "type": "cds.Decimal",
+     "precision": 6,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmVehicleMileageUnit"
+     },
+     "@Common.Label": "Mileage"
+    },
+    "InsurClmRelshpOwnrAndPlcyHldr": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Rel. Owner/PH",
+     "@Common.QuickInfo": "Relationship between Owner and PH"
+    },
+    "InsurClmVehicleIsTotalLoss": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Total Loss",
+     "@Common.QuickInfo": "Flag: Total Loss"
+    },
+    "InsurClmDmgdItmIsStolen": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Stolen",
+     "@Common.QuickInfo": "Flag: Stolen?"
+    },
+    "InsurClmDmgdItmIsRecovered": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Recovered",
+     "@Common.QuickInfo": "Flag: Stolen Object Recovered?"
+    },
+    "InsurClaimVehRecoveryDate": {
+     "type": "cds.Date"
+    },
+    "InsurClmVehLastOwnrChgDte": {
+     "type": "cds.Date"
+    },
+    "InsClmVehNextMandInspInYrMnth": {
+     "type": "cds.String",
+     "length": 7,
+     "notNull": true,
+     "@Common.Label": "Generelle Inspektion"
+    },
+    "InsurClmSalvgActlCshCrcy": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Actual Cash Value"
+    },
+    "InsurClmSalvgValAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmSalvgActlCshCrcy"
+     },
+     "@Common.Label": "Salvage Value",
+     "@Common.QuickInfo": "Salvage Value as Amount of Money"
+    },
+    "InsurClmAvgSalvgPotntlAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmSalvgActlCshCrcy"
+     },
+     "@Common.Label": "Avge Potential",
+     "@Common.QuickInfo": "Salvage: Average Salvage Potential"
+    },
+    "InsurClmSalvgEvalDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Evaluation Date",
+     "@Common.QuickInfo": "Evaluation Date for Salvage"
+    },
+    "InsurClmDmgdObjSalvgDetmDte": {
+     "type": "cds.Date",
+     "@Common.Label": "DmgdObj DetmDte",
+     "@Common.QuickInfo": "Date: Damaged Objected Determined as Salvage"
+    },
+    "InsurClmVehSalvgArrivalDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Date at Repair Shop",
+     "@Common.QuickInfo": "Salvage: Arrival Date at Repair Shop"
+    },
+    "InsurClmVehSalvgRptdPoliceDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Dte Rptd Police",
+     "@Common.QuickInfo": "Date Reported to Police"
+    },
+    "InsurClmSalvgSoldDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Date Sold",
+     "@Common.QuickInfo": "Date Salvage Item Sold"
+    },
+    "InsClmDmgdItmIsRetainedByOwnr": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Owner Retained",
+     "@Common.QuickInfo": "Flag: Retained by Owner?"
+    },
+    "InsurClmHistRatePct": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "History Rate",
+     "@Common.QuickInfo": "History Rate in Percent"
+    },
+    "InsurClmVehDailySalvgChrgsAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmSalvgActlCshCrcy"
+     },
+     "@Common.Label": "StandgChrgeSalv",
+     "@Common.QuickInfo": "Salvage: Daily Standing Charges at Salvage Yard"
+    },
+    "InsurClmSalvgAssgDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Date Assigned",
+     "@Common.QuickInfo": "Salvage: Date Assigned to Salvage Company"
+    },
+    "InsurClmSalvgArrivalDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Arrival Date",
+     "@Common.Heading": "Arrival",
+     "@Common.QuickInfo": "Salvage: Arrival Date at Salvage Yard"
+    },
+    "InsurClmSalvgSettlmtDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Settlement Date",
+     "@Common.QuickInfo": "Salvage: Settlement Date"
+    },
+    "InsurClmSalvgStockNumber": {
+     "type": "cds.String",
+     "length": 8,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Stock Number",
+     "@Common.QuickInfo": "Salvage: Stock Number"
+    },
+    "InsurClmSalvgYardLocation": {
+     "type": "cds.String",
+     "length": 8,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Salvor Location",
+     "@Common.QuickInfo": "Salvage: Salvage Yard Location"
+    },
+    "InsurClmVehSalvgTtlToSalvorDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Title to Salvor",
+     "@Common.QuickInfo": "Date on Which Title Was Transferred to Salvor"
+    },
+    "InsClmVehSalvgTtlRcvdSalvorDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Title w.Salvor",
+     "@Common.QuickInfo": "Date on Which Title Was Received by Salvor"
+    },
+    "InsurClmVehSalvgTtlToStateDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Title Sent to State",
+     "@Common.QuickInfo": "Date: Title Sent To State"
+    },
+    "InsClmVehSalvgTtlRcvdStateDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Title Recvd",
+     "@Common.QuickInfo": "Date on Which Title Received by State"
+    },
+    "InsurClmSalvgTtlReceiveDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Date Title Received",
+     "@Common.QuickInfo": "Date on Which Insurer Received Title"
+    },
+    "InsurClmVehSalvgCertDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Certificate Dte",
+     "@Common.QuickInfo": "Salvage: Certificate Date"
+    },
+    "InsurClmItemRefNumber": {
+     "type": "cds.String",
+     "length": 15,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Reference no.",
+     "@Common.Heading": "External Reference No.",
+     "@Common.QuickInfo": "External Reference Number"
+    },
+    "InsurClmPurgDocReference": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Purchasing Document",
+     "@Common.QuickInfo": "Reference to Purchasing Document"
+    },
+    "InsurClmPurgDocItemReference": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Item Number",
+     "@Common.QuickInfo": "Reference to Item Number in Purchasing Document"
+    },
+    "InsurClmRefLocCat": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Ref. Location",
+     "@Common.QuickInfo": "Reference Location for External Services"
+    },
+    "InsurClmTransactionType": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Procurement Trans.",
+     "@Common.Heading": "Transactn Type in Procuremnt Proc.",
+     "@Common.QuickInfo": "Transaction Type in Procurement Process"
+    },
+    "InsurClmInspLoc": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Location Selection",
+     "@Common.QuickInfo": "Location of Damaged Object"
+    },
+    "BusinessPartner": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participant BP No.",
+     "@Common.Heading": "Partic.No.",
+     "@Common.QuickInfo": "Claim Participant"
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "City"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.Label": "House Number",
+     "@Common.Heading": "House No."
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Street"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Postal Code",
+     "@Common.Heading": "Postl Code",
+     "@Common.QuickInfo": "City postal code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmDamagedObj": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsDamagedObject",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Srvcs Damaged Vehicle Salvage",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmVehicleMileage"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehicleValueAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehicleEngineCapacity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehFrontTreadQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehRearTreadQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehQtyInMlge"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmSalvgValAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmAvgSalvgPotntlAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmVehDailySalvgChrgsAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsInjuredPerson": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject"
+    },
+    "InsurClmSubobjectCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "BusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participant BP No.",
+     "@Common.Heading": "Partic.No.",
+     "@Common.QuickInfo": "Claim Participant"
+    },
+    "InsurClmParticipantRole": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "ParticipantRole",
+     "@Common.Heading": "Role",
+     "@Common.QuickInfo": "Participant Role Key"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Changed On/At",
+     "@Common.QuickInfo": "Changed: Date + Time"
+    },
+    "BusinessPartnerName": {
+     "type": "cds.String",
+     "length": 81,
+     "notNull": true
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Title Key",
+     "@Common.Heading": "Key",
+     "@Common.QuickInfo": "Form-of-Address Key"
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "Last Name",
+     "@Common.QuickInfo": "Last Name of Business Partner (Person)"
+    },
+    "FirstName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "First Name",
+     "@Common.QuickInfo": "First Name of Business Partner (Person)"
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Street"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.Label": "House Number",
+     "@Common.Heading": "House No."
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "City"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Postal Code",
+     "@Common.Heading": "Postl Code",
+     "@Common.QuickInfo": "City postal code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241,
+     "notNull": true
+    },
+    "BirthDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Date of Birth",
+     "@Common.Heading": "Birth Date",
+     "@Common.QuickInfo": "Date of Birth of Business Partner"
+    },
+    "GenderCodeName": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Sex",
+     "@Common.QuickInfo": "Gender of Business Partner (Person)"
+    },
+    "AuthorizationGroup": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Authorization Group",
+     "@Common.Heading": "AGrp"
+    },
+    "InsurClmFatalInjury": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Fatality",
+     "@Common.QuickInfo": "Fatal Injury"
+    },
+    "InsurClmImpairmentPercent": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "Impairment %",
+     "@Common.QuickInfo": "Percentage of Impairment"
+    },
+    "InsurClmRelationship": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Relationship to PH",
+     "@Common.QuickInfo": "Type of Relationship to Policyholder"
+    },
+    "InsurClmIntraCompany": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Intra-Company"
+    },
+    "InsurClmNoInsurance": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Not Insured",
+     "@Common.QuickInfo": "Flag: Not Insured"
+    },
+    "InsurClmParticipantType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participtn Type",
+     "@Common.QuickInfo": "Participation Type of Claimant"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmDamagedObj": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsDamagedObject",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Claim Services For Injured Person",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.InsertRestrictions.Insertable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsInsurClaim": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsuranceContract": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Contract",
+     "@Common.QuickInfo": "Contract Number"
+    },
+    "InsurClmPolicyProduct": {
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Policy Product"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "CreationDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Created On/At",
+     "@Common.QuickInfo": "Created: Date + Time"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Created By"
+    },
+    "InsurClmWholeClmChgdBy": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Last Changed by",
+     "@Common.QuickInfo": "Whole Claim Last Changed By"
+    },
+    "InsurClmWholeClmChgDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmExternalNumberCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "External No.Category",
+     "@Common.QuickInfo": "External Number Category"
+    },
+    "InsurClmLifeCycSts": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Status of Claim"
+    },
+    "InsurClmStsChgdOnDteTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsuranceClaimIsStatusHandler": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Claim Handling Actve",
+     "@Common.Heading": "Claim Handling Process Is Active",
+     "@Common.QuickInfo": "\"Claim Handling\" Process Active"
+    },
+    "InsuranceClaimIsNoClaimMade": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "No Claim Made"
+    },
+    "InsuranceClaimIsStatusClosed": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Closed",
+     "@Common.QuickInfo": "\"Close (Sub)Claim\" Process Executed"
+    },
+    "InsurClmStatReason": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status Reason",
+     "@Common.QuickInfo": "Reason for Changing the Status"
+    },
+    "InsurClmType": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Type",
+     "@Common.Heading": "Intl ClmType",
+     "@Common.QuickInfo": "Internal Claim Type"
+    },
+    "InsurClmAuthznGrp": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "AuthGroup (VIP)",
+     "@Common.QuickInfo": "Authorization Group for Claims (VIP)"
+    },
+    "InsurClmPolicyProdGeneration": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Generation",
+     "@Common.QuickInfo": "Policy Product Generation"
+    },
+    "InsurClmPolicyProductVersion": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.Heading": "Policy Prod. Version",
+     "@Common.QuickInfo": "Policy Product Version"
+    },
+    "InsurClmIncdntType": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Incident Type",
+     "@Common.QuickInfo": "Incident Type of a Claim"
+    },
+    "InsurClmDateOfLoss": {
+     "type": "cds.Date",
+     "@Common.Label": "Date of Loss/Claim"
+    },
+    "InsurClmCauseOfLoss": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Cause",
+     "@Common.QuickInfo": "Cause of Loss/Claim"
+    },
+    "InsurClmLossLocAddressID": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Loss Location",
+     "@Common.Heading": "Loss Location (Address Number)"
+    },
+    "InsurClmTypeGeneration": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Generation",
+     "@Common.QuickInfo": "Generation of Internal Claim Type"
+    },
+    "InsurClmTypeVers": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Claim Type Version",
+     "@Common.Heading": "Claim Type Vers.",
+     "@Common.QuickInfo": "Internal Claim Type Version"
+    },
+    "InsuranceClaimBundleLossEvent": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CumulativeEvent",
+     "@Common.QuickInfo": "Cumulative Event"
+    },
+    "InsuranceClaimReinsurancePeril": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Peril"
+    },
+    "InsurClmTimeOfLoss": {
+     "type": "cds.Time",
+     "notNull": true,
+     "@Common.Label": "Time",
+     "@Common.QuickInfo": "Time of Claim/Loss"
+    },
+    "InsurClmTimeZoneOfLoss": {
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Time Zone",
+     "@Common.QuickInfo": "Time Zone of Claim/Loss Event"
+    },
+    "InsuranceClaimIsDateEstimate": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Date Estimated",
+     "@Common.QuickInfo": "Date Is Estimate"
+    },
+    "InsuranceClaimDateChangeReason": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Reason f.Change",
+     "@Common.QuickInfo": "Reason for Changing Claim Date"
+    },
+    "InsurClmIsRptdToAuth": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Reported",
+     "@Common.QuickInfo": "Claim/Loss Reported to Authority"
+    },
+    "InsurClmContractLastRenewal": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Renewal",
+     "@Common.QuickInfo": "Last Renewal of Contract Before Claim Date/Time"
+    },
+    "InsurClmVersionChangeTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Read Time",
+     "@Common.QuickInfo": "Time for Reading Version"
+    },
+    "InsurClmAssignUUID": {
+     "type": "cds.UUID",
+     "@Common.Label": "Link UUID",
+     "@Common.Heading": "UUID of Link",
+     "@Common.QuickInfo": "UUID of Entry to be Linked"
+    },
+    "InsurClmComplexity": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Complexity",
+     "@Common.QuickInfo": "Complexity of Claim/Subclaim"
+    },
+    "InsurClmJurisdictionCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "C/R Juris.",
+     "@Common.Heading": "Country/Reg.",
+     "@Common.QuickInfo": "Country/Region of Jurisdiction"
+    },
+    "InsurClmJurisdictionRegion": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Jurisd. Region",
+     "@Common.Heading": "Jurisdiction Region",
+     "@Common.QuickInfo": "Jurisdiction Region"
+    },
+    "InsurClmActyAssgmtSts": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Assignment Status",
+     "@Common.Heading": "Assgmt Status",
+     "@Common.QuickInfo": "Assignment Status of a Claim Subobject"
+    },
+    "InsuranceClaimOwnerType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CH Obj.Type",
+     "@Common.QuickInfo": "Object Type of Claim Handler"
+    },
+    "InsuranceClaimOwner": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Clm Hndlr ID",
+     "@Common.QuickInfo": "ID of Claim Handler"
+    },
+    "InsuranceClaimOwnerTypeGroup": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CH Obj.Type",
+     "@Common.QuickInfo": "Object Type of Claim Handler Group"
+    },
+    "InsuranceClaimOwnerGroup": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "CH Group",
+     "@Common.QuickInfo": "Claim Handler Group"
+    },
+    "InsuranceClaimIsCumulative": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Claim Assigned to an Aggregate"
+    },
+    "InsuranceClaimViewFault": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Fault",
+     "@Common.QuickInfo": "Fault of Policyholder from Point of View of Insurer"
+    },
+    "InsurClmVwFaultPlcyHldr": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "PH's View of Fault",
+     "@Common.QuickInfo": "Party at Fault from Point of View of Policyholder"
+    },
+    "InsurClmIsThirdPartyKnown": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "3rd party known",
+     "@Common.QuickInfo": "Flag: Third Party Known?"
+    },
+    "InsurClmCovered": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Compensable",
+     "@Common.QuickInfo": "Indication of Compensability"
+    },
+    "InsurClmIsEntrInPaytAmtAuthzns": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "EntryClaimB",
+     "@Common.QuickInfo": "Entry in ICLCLAIMB Exists"
+    },
+    "InsuranceClaimIsNoNotif": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Not Notif. Mode",
+     "@Common.QuickInfo": "Processing Not Possible in Notification Mode"
+    },
+    "InsuranceClaimIsReserve": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Reserve Exists",
+     "@Common.QuickInfo": "At Least One Reserve Exists in Claim"
+    },
+    "InsurClmWrkflwExecDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Renewal",
+     "@Common.QuickInfo": "Last Renewal of Contract Before Claim Date/Time"
+    },
+    "InsurClmWorkflowStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "WF Status",
+     "@Common.QuickInfo": "Workflow Status"
+    },
+    "InsurClmOpenDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Opened On"
+    },
+    "InsuranceClaimMaxItemNumber": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Highest ClmItNo",
+     "@Common.QuickInfo": "Current Highest Claim Item Number"
+    },
+    "InsurClmSecondInjuryFundStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "SIF Status",
+     "@Common.QuickInfo": "Status of Second Injury Fund"
+    },
+    "InsurClmIncdntInvstgnSts": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Match Status",
+     "@Common.Heading": "Match",
+     "@Common.QuickInfo": "Claim Investigation Match Status"
+    },
+    "InsuranceClaimEffectiveDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Contract Validity",
+     "@Common.Heading": "Contract Validity Date",
+     "@Common.QuickInfo": "Contract Validity Date"
+    },
+    "InsuranceClaimLossRepDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Date on Request",
+     "@Common.QuickInfo": "Date on Request for Insurance Benefit"
+    },
+    "InsurClmStatutoryPensionType": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Statutory Pension",
+     "@Common.QuickInfo": "Type of Statutory Pension"
+    },
+    "InsurClmWithdrawAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmWithdrawCrcy"
+     },
+     "@Common.Label": "Withdrawal Amount",
+     "@Common.Heading": "Requested Withdrawal Amount",
+     "@Common.QuickInfo": "Requested Total Withdrawal Amount"
+    },
+    "InsurClmWithdrawCrcy": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.Heading": "Currency of Withdrawal Amount",
+     "@Common.QuickInfo": "Currency of Withdrawal Amount"
+    },
+    "InsurClmWthdrwlSqnc": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Withdrawal Sequence"
+    },
+    "InsuranceClaimAlternateBenefit": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Alt.Benefit Values",
+     "@Common.Heading": "Display Alternative Benefit Values",
+     "@Common.QuickInfo": "Display Alternative Benefit Values"
+    },
+    "InsuranceClaimSpecialRiskNotif": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Special Risk Notif.",
+     "@Common.Heading": "Make Special Risk Notification",
+     "@Common.QuickInfo": "Make Special Risk Notification"
+    },
+    "InsuranceClaimNotifReason": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Spec.Risk Notif.Rsn",
+     "@Common.Heading": "Special Risk Notification Rsn",
+     "@Common.QuickInfo": "Reason for Special Risk Notification"
+    },
+    "InsuranceClaimAutoResubmission": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Autom. Resubmission",
+     "@Common.Heading": "Automatic Resubmission",
+     "@Common.QuickInfo": "Automatic Resubmission"
+    },
+    "InsuranceClaimFollowUpDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Resubmission Date",
+     "@Common.Heading": "Date of Automatic Resubmission",
+     "@Common.QuickInfo": "Date of Automatic Resubmission"
+    },
+    "InsuranceClaimProcessingDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Processing On"
+    },
+    "InsuranceClaimStatusObjectNmbr": {
+     "type": "cds.String",
+     "length": 22,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Object number"
+    },
+    "InsuranceClaimDunningStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Dunning Status"
+    },
+    "InsuranceClaimClearDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Premium Paid Up To"
+    },
+    "InsurClmPremiumBalanceAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmPremiumBalanceCurrency"
+     },
+     "@Common.Label": "Premium Balance"
+    },
+    "InsurClmPremiumBalanceCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.Heading": "Currency of Premium Payment",
+     "@Common.QuickInfo": "Currency of Premium Payment"
+    },
+    "InsuranceClaimWithdrawalType": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Withdrawal Type"
+    },
+    "InsuranceClaimReactDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Reactivation Date",
+     "@Common.Heading": "Date of Disabil.Reactivation",
+     "@Common.QuickInfo": "Date of Occupational Disability/Perm.Incap.to Wk Reactivatn"
+    },
+    "InsurClmSpecialRiskMsgDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Renewal",
+     "@Common.QuickInfo": "Last Renewal of Contract Before Claim Date/Time"
+    },
+    "InsurClmIncrrtBnftCalcDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Renewal",
+     "@Common.QuickInfo": "Last Renewal of Contract Before Claim Date/Time"
+    },
+    "InsuranceClaimPolicySystem": {
+     "type": "cds.String",
+     "length": 8,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Policy System Key",
+     "@Common.Heading": "Technical Key of Policy System",
+     "@Common.QuickInfo": "Technical Key of Policy System"
+    },
+    "InsurClmBenefitTypeTree": {
+     "type": "cds.String",
+     "length": 8,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Benefit Type Tree"
+    },
+    "InsurClmBnftTypeTreeGeneration": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Generation",
+     "@Common.QuickInfo": "Generation of Benefit Type Tree"
+    },
+    "InsurClmBnftTypeTreeVersion": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Version",
+     "@Common.QuickInfo": "Version of Benefit Type Tree"
+    },
+    "InsurClmIsWithoutProduct": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Without Product",
+     "@Common.Heading": "W/o Product Customizing",
+     "@Common.QuickInfo": "Use of Scenario Without Product Customizing"
+    },
+    "InsurClmIsDummyClaim": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Dummy Claim",
+     "@Common.QuickInfo": "Claim Is Dummy Claim"
+    },
+    "InsurClmReportedDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Repd to Insurer",
+     "@Common.QuickInfo": "Date Claim Reported to Insurance Company"
+    },
+    "InsurClmAgentReportedDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Reptd to Agent",
+     "@Common.QuickInfo": "Date on Which Claim Was Reported to Agent"
+    },
+    "InsurClmSensitiveClaim": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Sensitive Claim",
+     "@Common.QuickInfo": "Sensitive Claim?"
+    },
+    "InsuranceClaimExternalNumber": {
+     "type": "cds.String",
+     "length": 23,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "External Number"
+    },
+    "InsuranceClaimDraftIdentifier": {
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmArchivingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Archiving Status"
+    },
+    "InsurClmArchResubmsnDte": {
+     "type": "cds.Date",
+     "@Common.Label": "Resubmission Date"
+    },
+    "InsurClmArchRjcnRsn": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.Label": "Rejection Reason"
+    },
+    "InsurClmLossLocStreet": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Street"
+    },
+    "InsurClmLossLocHouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.Label": "House Number",
+     "@Common.Heading": "House No."
+    },
+    "InsurClmLossLocCity": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "City"
+    },
+    "InsurClmLossLocRegion": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "InsurClmLossLocPostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Postal Code",
+     "@Common.Heading": "Postl Code",
+     "@Common.QuickInfo": "City postal code"
+    },
+    "InsurClmLossLocCountry": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "InsurClmDescriptionOfLossLoc": {
+     "type": "cds.LargeString",
+     "notNull": true,
+     "@Common.Label": "Content of note"
+    },
+    "InsurClmIncidentDetailsText": {
+     "type": "cds.LargeString",
+     "notNull": true,
+     "@Common.Label": "Content of note"
+    },
+    "InsuranceClaimIsSFCChange": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "TRUE",
+     "@Common.QuickInfo": "Data element for domain BOOLE: TRUE (='X') and FALSE (=' ')"
+    },
+    "InsuranceClaimActivityCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Activity Category",
+     "@Common.Heading": "Act"
+    },
+    "InsurClmHasGrandChild": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Negotiation",
+     "@Common.QuickInfo": "Used for Claim Negotiation"
+    },
+    "InsurClmHasSubclmGrandChild": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Negotiation",
+     "@Common.QuickInfo": "Used for Claim Negotiation"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsClmSrvcsLossLocSFC": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsClmSrvcsLossLocSFC",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmCorrespnc": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsCorrespnc",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmDmgdObject": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsDamagedObject",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmPrtcpntSFC": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsClmSrvcsParticipantSFC",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsDmgdInjured": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInjuredPerson",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsDmgdVeh": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsDmgdVehicle",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsDmgdVehSalvg": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsDmgdVehSalvg",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsItem": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClaimServicesClaimItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsOrignOfLsSFC": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsClmSrvcsOrignOfLsSFC",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsParticipant": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsParticipant",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsPayment": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsuranceClaimServicesPayment",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSrvcsSubclmAttch": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsSubclmAttch",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsSubclmItem": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsSubclmItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "_InsurClmSrvcsTask": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClaimServicesTask",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSubclm": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClaimServicesSubclaim",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSubrogtn": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsSubrogation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    },
+    "_InsurClmSubrogtnItem": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsSubrogtnItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   },
+   "actions": {
+    "SetClaimToClosed": {
+     "kind": "action",
+     "params": {
+      "_it": {
+       "type": "$self",
+       "notNull": true
+      }
+     },
+     "returns": {
+      "type": "insurance_claim.InsurClmSrvcsInsurClaim",
+      "notNull": true
+     }
+    },
+    "SetClaimToOpen": {
+     "kind": "action",
+     "params": {
+      "_it": {
+       "type": "$self",
+       "notNull": true
+      }
+     },
+     "returns": {
+      "type": "insurance_claim.InsurClmSrvcsInsurClaim",
+      "notNull": true
+     }
+    }
+   },
+   "@Common.Label": "Claim Services Claim",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.NavigationRestrictions.RestrictedProperties": [
+    {
+     "NavigationProperty": {
+      "=": "_InsClmSrvcsLossLocSFC"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmCorrespnc"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmDmgdObject"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmPrtcpntSFC"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsDmgdInjured"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsDmgdVeh"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsDmgdVehSalvg"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsItem"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsOrignOfLsSFC"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsParticipant"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsPayment"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsSubclmAttch"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsSubclmItem"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSrvcsTask"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSubclm"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSubrogtn"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    },
+    {
+     "NavigationProperty": {
+      "=": "_InsurClmSubrogtnItem"
+     },
+     "InsertRestrictions": {
+      "Insertable": true
+     }
+    }
+   ],
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.FilterRestrictions.Filterable": true,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmDescriptionOfLossLoc"
+     },
+     "AllowedExpressions": "SearchExpression"
+    },
+    {
+     "Property": {
+      "=": "InsurClmIncidentDetailsText"
+     },
+     "AllowedExpressions": "SearchExpression"
+    }
+   ],
+   "@Capabilities.SortRestrictions.NonSortableProperties": [
+    "InsurClmDescriptionOfLossLoc",
+    "InsurClmIncidentDetailsText"
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsParticipant": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "BusinessPartner": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participant BP No.",
+     "@Common.Heading": "Partic.No.",
+     "@Common.QuickInfo": "Claim Participant"
+    },
+    "InsurClmSubobjectCategory": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "InsurClmSubobject": {
+     "key": true,
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject"
+    },
+    "InsurClmParticipantRole": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "ParticipantRole",
+     "@Common.Heading": "Role",
+     "@Common.QuickInfo": "Participant Role Key"
+    },
+    "InsurClmRelationship": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Relationship to PH",
+     "@Common.QuickInfo": "Type of Relationship to Policyholder"
+    },
+    "InsurClmParticipantType": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Participtn Type",
+     "@Common.QuickInfo": "Participation Type of Claimant"
+    },
+    "InsurClmNoInsurance": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Not Insured",
+     "@Common.QuickInfo": "Flag: Not Insured"
+    },
+    "InsurClmIntraCompany": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Intra-Company"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Changed On/At",
+     "@Common.QuickInfo": "Changed: Date + Time"
+    },
+    "BusinessPartnerName": {
+     "type": "cds.String",
+     "length": 81,
+     "notNull": true
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Title Key",
+     "@Common.Heading": "Key",
+     "@Common.QuickInfo": "Form-of-Address Key"
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "Last Name",
+     "@Common.QuickInfo": "Last Name of Business Partner (Person)"
+    },
+    "FirstName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "First Name",
+     "@Common.QuickInfo": "First Name of Business Partner (Person)"
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60,
+     "notNull": true,
+     "@Common.Label": "Street"
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.Label": "House Number",
+     "@Common.Heading": "House No."
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "City"
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Postal Code",
+     "@Common.Heading": "Postl Code",
+     "@Common.QuickInfo": "City postal code"
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Region",
+     "@Common.Heading": "Rg",
+     "@Common.QuickInfo": "Region (State, Province, County)"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Country/Region Key",
+     "@Common.Heading": "C/R"
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241,
+     "notNull": true
+    },
+    "BirthDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Date of Birth",
+     "@Common.Heading": "Birth Date",
+     "@Common.QuickInfo": "Date of Birth of Business Partner"
+    },
+    "GenderCodeName": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Sex",
+     "@Common.QuickInfo": "Gender of Business Partner (Person)"
+    },
+    "AuthorizationGroup": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Authorization Group",
+     "@Common.Heading": "AGrp"
+    },
+    "IsBusinessPurposeCompleted": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Purpose Completed",
+     "@Common.Heading": "Business Purpose Completed Flag",
+     "@Common.QuickInfo": "Business Purpose Completed Flag"
+    },
+    "InsurClmNewPrtcpntActionIsChkd": {
+     "type": "cds.Boolean",
+     "notNull": true
+    },
+    "InsurClmAuthznGrp": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Computed": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "AuthGroup (VIP)",
+     "@Common.QuickInfo": "Authorization Group for Claims (VIP)"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmPrtcpntSFC": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsClmSrvcsParticipantSFC",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    }
+   },
+   "@Common.Label": "Claim Services Participants",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsSubclmAttch": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsurClmActive": {
+     "key": true,
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Active/Suspense",
+     "@Common.QuickInfo": "Table entry is active (A) or in suspense (S)"
+    },
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsuranceClaimDocumentNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Number of Document in Claim"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsuranceClaimDocumentCode": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Document"
+    },
+    "InsurClmCorrespncRcpnt": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Corresp. Recipient",
+     "@Common.Heading": "Receiver",
+     "@Common.QuickInfo": "Correspondence Recipient"
+    },
+    "InsurClmIsDocEnteredMnlly": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Manually",
+     "@Common.QuickInfo": "Flag: Document entered manually"
+    },
+    "InsurClmIsDocCpySentToAgt": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Copy of document",
+     "@Common.QuickInfo": "Flag: Copy of Document will be sent to Agent"
+    },
+    "InsurClmDocRelDteTme": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "InsurClmDocReleasedBy": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Released by",
+     "@Common.QuickInfo": "User who released document for despatch"
+    },
+    "InsurClmDocSendType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Transmission method",
+     "@Common.Heading": "Trans.Meth",
+     "@Common.QuickInfo": "Document Transmission Method"
+    },
+    "CorrespondenceKey": {
+     "type": "cds.String",
+     "length": 36,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Correspondence Key",
+     "@Common.Heading": "Key"
+    },
+    "InsurClmSubobjectCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subobject Cat.",
+     "@Common.QuickInfo": "Claim Subobject Category"
+    },
+    "InsurClmSubobject": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Subobject"
+    },
+    "InsurClmDocApplFormKey": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Application form"
+    },
+    "InsurClmDocIsPrinted": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Already Printed",
+     "@Common.QuickInfo": "Flag for Print Already Made"
+    },
+    "InsurClmDocLanguage": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.Label": "Language",
+     "@Common.QuickInfo": "Language indicator in the application form"
+    },
+    "InsuranceClaimActivityCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Activity Category",
+     "@Common.Heading": "Act"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_Subclaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClaimServicesSubclaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Clm Srvcs Subclm Correspondence",
+   "@Common.SemanticKey": [
+    "InsurClmSubclm"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsSubclmItem": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubclm": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsurClmItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item"
+    },
+    "InsurClmItemEvaluation": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Evaluation",
+     "@Common.QuickInfo": "Claim Item Evaluation"
+    },
+    "LastChangeDateTime": {
+     "type": "cds.Timestamp",
+     "@odata.Precision": 7,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Time Stamp",
+     "@Common.QuickInfo": "UTC Time Stamp in Long Form (YYYYMMDDhhmmssmmmuuun)"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClmItemCat": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item Category"
+    },
+    "InsurClmItemType": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Object Type",
+     "@Common.Heading": "Claim Item Object Type",
+     "@Common.QuickInfo": "Claim Item Object Type"
+    },
+    "InsurClmCoverageType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Coverage Type"
+    },
+    "InsurBnftType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Benefit Type"
+    },
+    "InsurClmItemStatus": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Status of Claim Item"
+    },
+    "InsurClmItemRjcnRsn": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Rejection Reasn",
+     "@Common.QuickInfo": "Claim Item Rejection Reason"
+    },
+    "InsurClmItemDescription": {
+     "type": "cds.String",
+     "length": 40,
+     "notNull": true,
+     "@Common.Label": "Description",
+     "@Common.Heading": "Claim Item Description",
+     "@Common.QuickInfo": "Claim Item Description"
+    },
+    "InsurClmItemEvalBase": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Evaluation By",
+     "@Common.QuickInfo": "Type of Evaluator"
+    },
+    "InsurClmItemEvalQuantity": {
+     "type": "cds.Decimal",
+     "precision": 10,
+     "scale": 3,
+     "notNull": true,
+     "@Measures.Unit": {
+      "=": "InsurClmItemEvalQuantityUnit"
+     },
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Claim Item: Number (Days, Visits, Area) for Evaluation"
+    },
+    "InsurClmItemEvalQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUnit": true,
+     "@Common.Label": "Unit",
+     "@Common.Heading": "Claim Item: Unit of Measure",
+     "@Common.QuickInfo": "Claim Item: Unit of Measurement"
+    },
+    "InsurClmItemEvalPerUnitAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Amount per Unit"
+    },
+    "InsurClmItemEvalAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Evaluated Amount"
+    },
+    "InsurClmItemEvalCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Currency",
+     "@Common.QuickInfo": "Currency of Evaluated Amount"
+    },
+    "InsurClmItmEvalActlCshValAmt": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Act.Cash Value",
+     "@Common.QuickInfo": "Actual Cash Value"
+    },
+    "InsurClmItmEvalActlCshValPct": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "ACV Part",
+     "@Common.QuickInfo": "Proportion of Actual Cash Value to Original Cash Value in %"
+    },
+    "InsurClmItemTaxCode": {
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Tax Code"
+    },
+    "InsurClmItemSubclmRef": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Belongs To",
+     "@Common.QuickInfo": "Subclaim to Which a Claim Item Is Assigned"
+    },
+    "InsurClmItemRef": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Item"
+    },
+    "InsurClmDamagedObject": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Damaged Object"
+    },
+    "InsurClmItemLiabilityRate": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "Liability Rate",
+     "@Common.QuickInfo": "Liability Rate in Percent"
+    },
+    "InsurClmItemHasAlreadyPaidOut": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "TRUE",
+     "@Common.QuickInfo": "Data element for domain BOOLE: TRUE (='X') and FALSE (=' ')"
+    },
+    "InsurClmItemClmdAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClmItemEvalCurrency"
+     },
+     "@Common.Label": "Amount Requestd",
+     "@Common.Heading": "Amount Requested",
+     "@Common.QuickInfo": "Amount Requested"
+    },
+    "InsuranceClaimChangeCategory": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Change category",
+     "@Common.Heading": "CCat"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsurClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_Subclaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClaimServicesSubclaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Clm Srvcs Subclaim Item",
+   "@Common.SemanticKey": [
+    "InsurClmSubclm"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmItemEvalQuantity"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemEvalPerUnitAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemEvalAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItmEvalActlCshValAmt"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmItemClmdAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsSubrogation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubrogationUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.Label": "UUID",
+     "@Common.QuickInfo": "UUID in character form"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClaimSubrogationType": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsuranceClaimSubrogationType",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Type",
+     "@Common.QuickInfo": "Type of Subrogation/Recovery"
+    },
+    "InsurClmSubrogationReason": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsurClmSubrogationReason",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Reason",
+     "@Common.QuickInfo": "Subrogation/Recovery Reason"
+    },
+    "InsurClmSubrogationEstAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClaimSubrogationCurrency"
+     },
+     "@Common.Label": "Estimated Amount",
+     "@Common.QuickInfo": "Estimated Subrogation/Recovery Amount"
+    },
+    "InsurClaimSubrogationCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subro/Rcvry Currency",
+     "@Common.Heading": "Crcy",
+     "@Common.QuickInfo": "Subrogation/Recovery Currency"
+    },
+    "InsurClmSubrogationLbltyRate": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "Liability Rate",
+     "@Common.Heading": "Liab. Rate",
+     "@Common.QuickInfo": "Liability Rate for Subrogation/Recovery"
+    },
+    "InsurClmSubrogtnProbltyRate": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2,
+     "notNull": true,
+     "@Common.Label": "Probability",
+     "@Common.QuickInfo": "Subrogation/Recovery Probability"
+    },
+    "InsurClmSubrogationPartyLiable": {
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Party Liable"
+    },
+    "InsurClmLtgtnUUID": {
+     "type": "cds.UUID",
+     "@Common.Label": "UUID of Litigation",
+     "@Common.QuickInfo": "Universal Unique Identifier of Litigation"
+    },
+    "InsurClmSubrogationStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.SAPObjectNodeTypeReference": "InsurClmSubrogationStatus",
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Subrogation/Recovery Status"
+    },
+    "InsurClmSubrogationStatusText": {
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true
+    },
+    "InsurClmSubrogationSentDate": {
+     "type": "cds.Date",
+     "@Common.Label": "Sent On",
+     "@Common.Heading": "Notification Sent On",
+     "@Common.QuickInfo": "Date Sent (Notification of Subrogation/Recovery Activation)"
+    },
+    "InsurClmSubrogationIsFinished": {
+     "type": "cds.Boolean",
+     "notNull": true,
+     "@Common.Label": "Closed",
+     "@Common.Heading": "Subro/Rcvry Status \"Completed\"",
+     "@Common.QuickInfo": "Subrogation/Recovery Status \"Completed\""
+    },
+    "InsurClmSubrogtnClsRsnTxt": {
+     "type": "cds.String",
+     "length": 80,
+     "notNull": true,
+     "@Common.Label": "Closure Reason",
+     "@Common.Heading": "Subro/Recovery Closed Because",
+     "@Common.QuickInfo": "Closure Reason for Subrogation/Recovery"
+    },
+    "InsurClmSubrogationNumber": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Number",
+     "@Common.QuickInfo": "Number of Subrogation/Recovery"
+    },
+    "InsurClmSubrogationCompId": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.Label": "Compressed GUID",
+     "@Common.Heading": "Compressed Subro/Recovery GUID",
+     "@Common.QuickInfo": "Subrogation/Recovery: Compressed GUID (Univ.Unique Identif.)"
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmSubrogtnItem": {
+     "type": "cds.Composition",
+     "target": "insurance_claim.InsurClmSrvcsSubrogtnItem",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": [],
+     "@Common.Composition": true
+    }
+   },
+   "@Common.Label": "Claim Services Subrogation Header",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmSubrogationEstAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  },
+  "insurance_claim.InsurClmSrvcsSubrogtnItem": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "InsuranceClaim": {
+     "key": true,
+     "type": "cds.String",
+     "length": 17,
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Claim Number",
+     "@Common.QuickInfo": "Number of Claim"
+    },
+    "InsurClmSubrogationItemUUID": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.Label": "Subro/Recovery UUID",
+     "@Common.Heading": "UUID of Subrogation/Recovery",
+     "@Common.QuickInfo": "Universal Unique Identifier of Subrogation/Recovery"
+    },
+    "ChangedOnDateTime": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@Common.Label": "Last Changed At",
+     "@Common.QuickInfo": "Date on Which Whole Claim Was Last Changed"
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Changed by",
+     "@Common.QuickInfo": "Changed By"
+    },
+    "InsurClmDatabaseLineStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Status",
+     "@Common.QuickInfo": "Database Line Status (Original, Changed, Deleted)"
+    },
+    "InsurClmSubrogationUUID": {
+     "type": "cds.UUID",
+     "notNull": true,
+     "@Core.Immutable": true,
+     "@Common.Label": "Subro/Recovery UUID",
+     "@Common.Heading": "UUID of Subrogation/Recovery",
+     "@Common.QuickInfo": "Universal Unique Identifier of Subrogation/Recovery"
+    },
+    "InsurClmSubclm": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subclaim Number",
+     "@Common.Heading": "SubC",
+     "@Common.QuickInfo": "Subclaim"
+    },
+    "InsurClmSubrogationResAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClaimSubrogationCurrency"
+     },
+     "@Common.Label": "Reserve Amount",
+     "@Common.Heading": "Reserve Amt Subrog/Rcvry Item",
+     "@Common.QuickInfo": "Reserve Amount Subrogation/Recovery Item"
+    },
+    "InsurClaimSubrogationCurrency": {
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true,
+     "@Common.IsCurrency": true,
+     "@Common.IsUpperCase": true,
+     "@Common.Label": "Subro/Rcvry Currency",
+     "@Common.Heading": "Crcy",
+     "@Common.QuickInfo": "Subrogation/Recovery Currency"
+    },
+    "InsurClmSubrogationItemNumber": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true,
+     "@Common.IsDigitSequence": true,
+     "@Common.Label": "Item Number",
+     "@Common.QuickInfo": "Number of Subrogation/Recovery Item"
+    },
+    "InsurClmSubrogationItmCompId": {
+     "type": "cds.String",
+     "length": 16,
+     "notNull": true,
+     "@Common.Label": "Compr.Itm GUID",
+     "@Common.Heading": "Compressed Subrogation/Recovery Itm GUID",
+     "@Common.QuickInfo": "Subrogation/Recovery Item: Compressed GUID"
+    },
+    "InsurClmRsrvPendingAmount": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "notNull": true,
+     "@Measures.ISOCurrency": {
+      "=": "InsurClaimSubrogationCurrency"
+     },
+     "@Common.Label": "Pending Reserve"
+    },
+    "InsurClmSubrogationStatusText": {
+     "type": "cds.String",
+     "length": 14,
+     "notNull": true
+    },
+    "SAP__Messages": {
+     "items": {
+      "type": "insurance_claim.SAP__Message",
+      "notNull": true
+     }
+    },
+    "_InsuranceClaim": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsInsurClaim",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    },
+    "_InsurClmSubrogation": {
+     "type": "cds.Association",
+     "target": "insurance_claim.InsurClmSrvcsSubrogation",
+     "cardinality": {
+      "max": 1
+     },
+     "keys": []
+    }
+   },
+   "@Common.Label": "Insurance Claim Subrogation Item",
+   "@Common.SemanticKey": [
+    "InsuranceClaim"
+   ],
+   "@Common.Messages": {
+    "=": "SAP__Messages"
+   },
+   "@Capabilities.SearchRestrictions.Searchable": false,
+   "@Capabilities.DeleteRestrictions.Deletable": false,
+   "@Capabilities.FilterRestrictions.FilterExpressionRestrictions": [
+    {
+     "Property": {
+      "=": "InsurClmSubrogationResAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    },
+    {
+     "Property": {
+      "=": "InsurClmRsrvPendingAmount"
+     },
+     "AllowedExpressions": "MultiValue"
+    }
+   ],
+   "@Capabilities.UpdateRestrictions.QueryOptions.SelectSupported": true
+  }
+ }
+}

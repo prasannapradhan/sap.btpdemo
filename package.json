@@ -1,0 +1,38 @@
+{
+  "name": "btpdemo",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^8",
+    "express": "^4"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "btpdemodb"
+        }
+      },
+      "insurance_claim": {
+        "kind": "odata",
+        "model": "srv/external/insurance_claim"
+      }
+    }
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.6",
+    "@cap-js/sqlite": "^1.7.3",
+    "@sap/ux-specification": "^1.120.14"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-genericfoodmodule": "cds watch --open genericfoodmodule/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "sapux": [
+    "app/genericfoodmodule"
+  ]
+}
