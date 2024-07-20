@@ -22,32 +22,45 @@
         "kind": "odata",
         "model": "srv/external/insurance_claim"
       },
-      "uaa" : {
+      "uaa": {
         "kind": "xsuaa"
       },
-      "auth" : {
-        "[production]" : {
-          "strategy" : "mock",
+      "auth": {
+        "[production]": {
+          "strategy": "mock",
           "users": {
-            "prasanna" : {
-              "roles": ["Admin", "Viewer"]
+            "prasanna": {
+              "roles": [
+                "Admin",
+                "Viewer"
+              ]
             },
-            "saurav" : {
-              "roles": ["Viewer"]
+            "saurav": {
+              "roles": [
+                "Viewer"
+              ]
             }
           }
         },
-        "[development]" : {
-          "strategy" : "mock",
+        "[development]": {
+          "strategy": "mock",
           "users": {
-            "prasanna" : {
-              "roles": ["Admin", "Viewer"]
+            "prasanna": {
+              "roles": [
+                "Admin",
+                "Viewer"
+              ]
             },
-            "saurav" : {
-              "roles": ["Viewer"]
+            "saurav": {
+              "roles": [
+                "Viewer"
+              ]
             }
           }
-        },
+        }
+      },
+      "[production]": {
+        "auth": "xsuaa"
       }
     }
   },

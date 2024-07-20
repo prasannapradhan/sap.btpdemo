@@ -1,29 +1,33 @@
 {
-  "xsappname" : "btpdemo-srv",
-  "tenant-mode" : "dedicated",
+  "xsappname": "btpdemo-srv",
+  "tenant-mode": "dedicated",
   "scopes": [
     {
-      "name" : "$XSAPPNAME.Viewer",
-      "description" : "Viewer"
+      "name": "$XSAPPNAME.Viewer",
+      "description": "Viewer"
     },
     {
-      "name" : "$XSAPPNAME.Admin",
-      "description" : "Admin"
-    },
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin"
+    }
   ],
   "attributes": [],
   "role-templates": [
     {
-      "name" : "Viewer",
-      "description" : "Viewer",
-      "attribute-references" : [],
-      "scope-references" : ["$XSAPPNAME.Viewer"]
+      "name": "Viewer",
+      "description": "Viewer",
+      "attribute-references": [],
+      "scope-references": [
+        "$XSAPPNAME.Viewer"
+      ]
     },
     {
-      "name" : "Admin",
-      "description" : "Admin",
-      "attribute-references" : [],
-      "scope-references" : ["$XSAPPNAME.Admin"]
+      "name": "Admin",
+      "description": "Admin",
+      "attribute-references": [],
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
     }
   ]
 }
