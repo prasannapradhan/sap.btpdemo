@@ -35,18 +35,22 @@ annotate service.FoodEntity with @(
         {
             $Type : 'UI.DataField',
             Value : food_name,
+            Label : 'Food Name',
         },
         {
             $Type : 'UI.DataField',
             Value : scientific_name,
+            Label : 'Scientific Name',
         },
         {
             $Type : 'UI.DataField',
             Value : group,
+            Label : 'Group',
         },
         {
             $Type : 'UI.DataField',
             Value : sub_group,
+            Label : 'Sub group',
         },
     ],
 
