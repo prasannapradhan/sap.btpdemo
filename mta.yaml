@@ -31,7 +31,7 @@ modules:
           name: srv-api
           strictSSL: true
           forwardAuthToken: t
-      - name: btpdemo-auth
+#      - name: btpdemo-auth
 resources:
   - name: btpdemo-destination
     type: org.cloudfoundry.managed-service
@@ -45,5 +45,5 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: 'btpdemo-${org}-${space}'
+        xsappname: 'btpdemo-srv'
         tenant-mode: dedicated

@@ -3,11 +3,11 @@
   "tenant-mode": "dedicated",
   "scopes": [
     {
-      "name": "$XSAPPNAME.Viewer",
+      "name": "btpdemo.Viewer",
       "description": "Viewer"
     },
     {
-      "name": "$XSAPPNAME.Admin",
+      "name": "btpdemo.Admin",
       "description": "Admin"
     }
   ],
@@ -18,7 +18,7 @@
       "description": "Viewer",
       "attribute-references": [],
       "scope-references": [
-        "$XSAPPNAME.Viewer"
+        "btpdemo.Viewer"
       ]
     },
     {
@@ -26,7 +26,7 @@
       "description": "Admin",
       "attribute-references": [],
       "scope-references": [
-        "$XSAPPNAME.Admin"
+        "btpdemo.Admin"
       ]
     }
   ]

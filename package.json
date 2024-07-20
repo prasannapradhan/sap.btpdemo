@@ -18,12 +18,8 @@
           "url": "btpdemodb"
         }
       },
-      "insurance_claim": {
-        "kind": "odata",
-        "model": "srv/external/insurance_claim"
-      },
       "uaa": {
-        "kind": "xsuaa"
+        "kind": "mocked"
       },
       "auth": {
         "[production]": {
@@ -60,7 +56,7 @@
         }
       },
       "[production]": {
-        "auth": "xsuaa"
+        "auth": "mocked"
       }
     }
   },
